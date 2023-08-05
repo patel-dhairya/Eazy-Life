@@ -8,4 +8,5 @@ module com.personal.easylife {
 
     opens com.personal.easylife to javafx.fxml;
     exports com.personal.easylife;
+    exports com.personal.easylife.controller;
 }
