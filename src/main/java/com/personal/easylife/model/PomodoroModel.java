@@ -5,7 +5,7 @@ public class PomodoroModel {
     private int seconds = 0;  // Default work time in seconds
     private boolean isBreak = false; // Flag to indicate if it's break time or work time
     private int cycles = 0; // Number of pomodoro cycles user finished in single session
-    private boolean isPaused = false; // Flag to keep track of whether the timer is paused or not
+    private boolean isPaused = true; // Flag to keep track of whether the timer is paused or not
 
     // Getters and setters for the model properties
 

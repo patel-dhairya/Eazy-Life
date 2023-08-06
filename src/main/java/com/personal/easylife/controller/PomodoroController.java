@@ -13,7 +13,9 @@ public class PomodoroController extends Application{
     @Override
     public void start(Stage primaryStage) {
         view = new PomodoroView(primaryStage, model);
-
+        view.pauseButton.setOnAction(e -> pauseTimer());
+        view.resetButton.setOnAction(e -> resetTimer());
+        view.startButton.setOnAction(e -> startTimer());
         // Start the timer
         startTimer();
     }
@@ -21,6 +23,9 @@ public class PomodoroController extends Application{
     private void startTimer() {
         Thread timerThread = new Thread(() -> {
             try {
+                if (!model.isPaused()){
+                    view.startButton.setDisable(true);
+                }
                 while (model.getMinutes() >= 0) {
                     // Update the view using Platform.runLater() to safely interact with the GUI
                     Platform.runLater(() -> {
@@ -67,6 +72,26 @@ public class PomodoroController extends Application{
         } else {
             model.setSeconds(model.getSeconds() - 1);
         }
+    }
+
+    public void pauseTimer() {
+        // Toggle the pause flag
+        model.setPaused(!model.isPaused());
+        if (model.isPaused()) {
+            view.pauseButton.setText("Play");
+        } else {
+            view.pauseButton.setText("Pause");
+        }
+    }
+
+    private void resetTimer() {
+        model.setMinutes(25);
+        model.setSeconds(0);
+        model.setBreak(false);
+        model.setCycles(0);
+        model.setPaused(false);
+        view.startButton.setDisable(false);
+        view.updateView();
     }
 
     public static void main(String[] args) {
