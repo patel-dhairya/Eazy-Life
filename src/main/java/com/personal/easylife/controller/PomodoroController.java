@@ -23,9 +23,10 @@ public class PomodoroController extends Application{
     private void startTimer() {
         Thread timerThread = new Thread(() -> {
             try {
-                if (!model.isPaused()){
-                    view.startButton.setDisable(true);
+                if (model.isPaused()){
+                    model.setPaused(false);
                 }
+
                 while (model.getMinutes() >= 0) {
                     // Update the view using Platform.runLater() to safely interact with the GUI
                     Platform.runLater(() -> {
@@ -66,6 +67,9 @@ public class PomodoroController extends Application{
     }
 
     private void updateTimer() {
+        if (!model.isPaused()){
+            view.startButton.setDisable(true);
+        }
         if (model.getSeconds() == 0) {
             model.setSeconds(59);
             model.setMinutes(model.getMinutes() - 1);
@@ -91,6 +95,7 @@ public class PomodoroController extends Application{
         model.setCycles(0);
         model.setPaused(false);
         view.startButton.setDisable(false);
+        view.pauseButton.setText("Pause");
         view.updateView();
     }
 
